@@ -1,7 +1,7 @@
-def bfs_find_one(array_2d, start):
+def bfs_find_one(array_2d, start_col, start_row):
     rows, cols = len(array_2d), len(array_2d[0])
-    start_row, start_col = start
     visited = [[False for _ in range(cols)] for _ in range(rows)]
+    moves = 0
     
     # Directions for moving up, down, left, and right
     directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
@@ -11,9 +11,10 @@ def bfs_find_one(array_2d, start):
     
     while queue:
         row, col = queue.pop(0)
+        moves += 1
         
         if array_2d[row][col] == 1:
-            return (row, col)
+            return [[col, row], moves]
         
         for dr, dc in directions:
             new_row, new_col = row + dr, col + dc
@@ -24,29 +25,36 @@ def bfs_find_one(array_2d, start):
     
     return None
 
-garage_escape_file = open("GarageEscape-1.txt")
+garage_escape_file = open("GarageEscape1Floor.txt")
 curr_garage = []
 curr_floor = []
 start_index = [-1,-1,-1]
-curr_moves = 0
+garage_moves = 0
 for line in garage_escape_file:
     if "garage" in line.lower():
         start_index = [-1,-1,-1]
         curr_garage = []
     if "floor" in line.lower():
-        curr_garage.append(curr_floor)
+        if curr_floor:
+            curr_garage.append(curr_floor)
+        if start_index[0] != -1:
+            one_index, floor_moves = bfs_find_one(curr_floor, start_index[0], start_index[1])
+            start_index = [one_index[0], one_index[1], start_index[2] + 1]
+            garage_moves += floor_moves
         curr_floor = []
     if "row" in line.lower():
         numbers = line.split(':')[1].strip()
         row = [int(x) for x in numbers.split(' ')]
-        if 3 in row:
-            start_index[0] = row.index(3)
-            start_index[1] = len(curr_floor)
-            start_index[2] = len(curr_garage)
-            start_index = bfs_find_one(curr_garage, (start_index[0], start_index[1]))
         curr_floor.append(row)
+        if 3 in row:
+            # col
+            start_index[0] = row.index(3)
+            # row
+            start_index[1] = len(curr_floor) - 1
+            # z index
+            start_index[2] = len(curr_garage) - 1
 
 print(curr_garage[start_index[2]][start_index[1]][start_index[0]], len(curr_garage))
-print(start_index)
+print(start_index, garage_moves)
 
 
