@@ -63,11 +63,6 @@ if curr_floor:
 final_index, floor_moves = bfs_find_one(curr_floor, start_index[0], start_index[1], True)
 print(f'Exit Found for floor {len(curr_garage)}')
 print(f"Escaped in {garage_moves} moves")
-# curr_garage[start_index[2]][start_index[1]][start_index[0]]
-# if start_index == curr_garage[1][1][len(curr_floor) - 1]: 
-#     print(f'Exit Found for floor {len(curr_garage)}')
-
-# print(curr_garage[start_index[2]][start_index[1]][start_index[0]], len(curr_garage))
 print(start_index, garage_moves)
 
 
