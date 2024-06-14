@@ -1,4 +1,4 @@
-def bfs_find_one(array_2d, start_col, start_row):
+def bfs_find_one(array_2d, start_col, start_row, find_exit=False):
     rows, cols = len(array_2d), len(array_2d[0])
     visited = [[False for _ in range(cols)] for _ in range(rows)]
     moves = 0
@@ -13,7 +13,9 @@ def bfs_find_one(array_2d, start_col, start_row):
         row, col = queue.pop(0)
         moves += 1
         
-        if array_2d[row][col] == 1:
+        if not find_exit and array_2d[row][col] == 1:
+            return [[col, row], moves]
+        elif find_exit and col == len(array_2d[0]) - 1 and row == len(array_2d) - 1:
             return [[col, row], moves]
         
         for dr, dc in directions:
@@ -39,6 +41,7 @@ for line in garage_escape_file:
             curr_garage.append(curr_floor)
         if start_index[0] != -1:
             one_index, floor_moves = bfs_find_one(curr_floor, start_index[0], start_index[1])
+            print(f'Exit Found for floor {len(curr_garage)}')
             start_index = [one_index[0], one_index[1], start_index[2] + 1]
             garage_moves += floor_moves
         curr_floor = []
@@ -52,9 +55,19 @@ for line in garage_escape_file:
             # row
             start_index[1] = len(curr_floor) - 1
             # z index
-            start_index[2] = len(curr_garage) - 1
+            start_index[2] = len(curr_garage)
 
-print(curr_garage[start_index[2]][start_index[1]][start_index[0]], len(curr_garage))
+if curr_floor:
+    curr_garage.append(curr_floor)
+
+final_index, floor_moves = bfs_find_one(curr_floor, start_index[0], start_index[1], True)
+print(f'Exit Found for floor {len(curr_garage)}')
+print(f"Escaped in {garage_moves} moves")
+# curr_garage[start_index[2]][start_index[1]][start_index[0]]
+# if start_index == curr_garage[1][1][len(curr_floor) - 1]: 
+#     print(f'Exit Found for floor {len(curr_garage)}')
+
+# print(curr_garage[start_index[2]][start_index[1]][start_index[0]], len(curr_garage))
 print(start_index, garage_moves)
 
 
