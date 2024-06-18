@@ -7,13 +7,13 @@ def bfs(array_2d,start_col,start_row,find_exit=False):
  v[start_row][start_col]=True
  while q:
   row,col,m=q.pop(0)
-  if not find_exit and array_2d[row][col]==1:return [[col,row],m]
-  elif find_exit and col==len(array_2d[0])-1 and row==0:return [[col,row],m]
+  if not find_exit and array_2d[row][col]==1:return[[col,row],m]
+  elif find_exit and col==len(array_2d[0])-1 and row==0:return[[col,row],m]
   for dr,dc in d:
-   new_row,new_col=row + dr,col + dc
-   if 0<=new_row<rows and 0<=new_col<cols and not v[new_row][new_col] and array_2d[new_row][new_col]!=4:
-    q.append((new_row,new_col,m+1))
-    v[new_row][new_col]=True
+   nr,nc=row + dr,col + dc
+   if 0<=nr<rows and 0<=nc<cols and not v[nr][nc] and array_2d[nr][nc]!=4:
+    q.append((nr,nc,m+1))
+    v[nr][nc]=True
 file,c_g,c_f,s_i,g_m=open("example.txt"),[],[],[-1,-1,-1],0
 lines=file.readlines()
 for i,line in enumerate(lines):
