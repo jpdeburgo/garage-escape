@@ -17,37 +17,30 @@ def bfs_find_one(array_2d, start_col, start_row, find_exit=False):
                 queue.append(((new_row, new_col), moves + 1))
                 visited[new_row][new_col] = True
     return None
-garage_escape_file = open("randall-tramia-cases.txt")
-curr_garage = []
-curr_floor = []
-start_index = [-1,-1,-1]
-garage_moves = 0
-lines = garage_escape_file.readlines()
-for i, line in enumerate(lines):
+file,c_g,c_f,s_i,g_m=open("example.txt"),[],[],[-1,-1,-1],0
+lines=file.readlines()
+for i,line in enumerate(lines):
     if "garage" in line.lower() or i == len(lines) - 1:
-        if curr_floor:
-            curr_garage.append(curr_floor)
-            final_index, floor_moves = bfs_find_one(curr_floor, start_index[0], start_index[1], True)
-            garage_moves+=floor_moves+1
-            print(f"Escaped in {garage_moves} moves")
-        start_index = [-1,-1,-1]
-        curr_garage = []
-        garage_moves = 0
-        curr_floor = []
+        if c_f:
+            c_g.append(c_f)
+            final_index,floor_moves=bfs_find_one(c_f, s_i[0], s_i[1], True)
+            g_m+=floor_moves+1
+            print(f"Escaped in {g_m} moves")
+        s_i,c_g,g_m,c_f=[-1,-1,-1], [], 0, []
     if "floor" in line.lower():
-        if curr_floor:
-            curr_garage.append(curr_floor)
-        if start_index[0] != -1: 
-            garage_moves+=1
-            one_index, floor_moves = bfs_find_one(curr_floor, start_index[0], start_index[1])
-            start_index = [one_index[0], one_index[1], start_index[2] + 1]
-            garage_moves+=floor_moves
-        curr_floor = []
+        if c_f:
+            c_g.append(c_f)
+        if s_i[0] != -1: 
+            g_m+=1
+            one_index, floor_moves = bfs_find_one(c_f, s_i[0], s_i[1])
+            s_i = [one_index[0], one_index[1], s_i[2] + 1]
+            g_m+=floor_moves
+        c_f = []
     if "row" in line.lower():
         numbers = line.split(':')[1].strip()
         row = [int(x) for x in numbers.split(' ')]
-        curr_floor.append(row)
+        c_f.append(row)
         if 3 in row:
-            start_index[0] = row.index(3)
-            start_index[1] = len(curr_floor) - 1
-            start_index[2] = len(curr_garage)
+            s_i[0] = row.index(3)
+            s_i[1] = len(c_f) - 1
+            s_i[2] = len(c_g)
