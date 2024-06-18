@@ -1,9 +1,7 @@
-
 def bfs_find_one(array_2d, start_col, start_row, find_exit=False):
     rows, cols = len(array_2d), len(array_2d[0]) 
     visited = [[False for _ in range(cols)] for _ in range(rows)]
     moves = 0
-    
     directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
     #tuple to keep track of each nodes distance from starting node
     queue = [((start_row, start_col), moves)]
@@ -29,7 +27,7 @@ def bfs_find_one(array_2d, start_col, start_row, find_exit=False):
     
     return None
 
-garage_escape_file = open("GarageEscape1Floor.txt")
+garage_escape_file = open("GarageEscape-1.txt")
 curr_garage = []
 curr_floor = []
 start_index = [-1,-1,-1]
@@ -62,17 +60,9 @@ if curr_floor:
     curr_garage.append(curr_floor)
 
 final_index, floor_moves = bfs_find_one(curr_floor, start_index[0], start_index[1], True)
-##print(floor_moves)
 
 garage_moves+=floor_moves
 print(f'Exit Found for floor {len(curr_garage)}')
 print(f"Escaped in {garage_moves} moves")
-##print(path)
 
-
-# curr_garage[start_index[2]][start_index[1]][start_index[0]]
-# if start_index == curr_garage[1][1][len(curr_floor) - 1]: 
-#     print(f'Exit Found for floor {len(curr_garage)}')
-
-# print(curr_garage[start_index[2]][start_index[1]][start_index[0]], len(curr_garage))
 print(start_index, garage_moves)
