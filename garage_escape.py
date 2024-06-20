@@ -13,7 +13,7 @@ for i,line in enumerate(lines):
     if c_f:c_g.append(c_f);_,f_m=bfs(c_f,s_i[0],s_i[1],'T');g_m+=f_m+1;print(f"Escaped in {g_m} moves");s_i,c_g,g_m,c_f=[-1,-1,-1],[],0,[]
  if "F"in line:
   if c_f:c_g.append(c_f)
-  if s_i[0]!=-1:idx,f_m=bfs(c_f,s_i[0],s_i[1]);s_i,c_f=[idx[0],idx[1],s_i[2] + 1],[];g_m+=f_m+1
+  if s_i[0]!=-1:idx,f_m=bfs(c_f,s_i[0],s_i[1]);s_i,c_f=[idx[0],idx[1],s_i[2]+1],[];g_m+=f_m+1
  if "R"in line:
   c_f.append([int(x) for x in line.split(':')[1].strip().split(' ')])
-  if 3 in c_f[-1]:s_i[0],s_i[1],s_i[2]=c_f[-1].index(3),l(c_f)-1,l(c_g)
+  if 3 in c_f[-1]:s_i=[c_f[-1].index(3),l(c_f)-1,l(c_g)]
